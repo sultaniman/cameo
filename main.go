@@ -8,7 +8,7 @@ func main() {
 	app.Get("/", func(c *fiber.Ctx) {
 		c.Send("Hello, World 👋!")
 	})
-	app.Use()
+	app.Use(func() {})
 
 	_ = app.Listen(3000)
 }

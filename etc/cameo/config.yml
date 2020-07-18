@@ -1,0 +1,19 @@
+mailer:
+  host: smtp.google.com
+  port: 587
+  user: user
+  pass: pass
+  app_pass: app_pass
+  retries: 3
+  send_to: secret@secret.mail
+  from_email: contact@myform.com
+
+domains:
+  - example.com
+  - second-example.com
+
+logs:
+  level: INFO
+
+pgp:
+  pub_key: /path/to/pub.key
