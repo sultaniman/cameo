@@ -9,14 +9,13 @@ type AppConfig struct {
 	Config *Config
 }
 
-func serve(config *AppConfig) error {
+func Serve(config *AppConfig) error {
 	app := fiber.New()
 
 	app.Get("/", func(c *fiber.Ctx) {
 		c.Send("Hello, World 👋!")
 	})
 
-	app.Use(func() {})
 
-	return app.Listen(3000)
+	return app.Listen(config.Config.Port)
 }

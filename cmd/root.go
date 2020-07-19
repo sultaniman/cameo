@@ -13,8 +13,10 @@ var rootCmd = &cobra.Command{
 	Short: "Cameo allows you to create GPG encrypted contact forms",
 	Long:  "Generate your GPG key and deploy your contact form with Cameo",
 	Run: func(cmd *cobra.Command, args []string) {
-		spew.Dump(appConfig)
-		_ = cmd.Usage()
+		if err := cameo.Serve(appConfig); err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
 	},
 }
 
