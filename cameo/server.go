@@ -1,21 +1,33 @@
 package cameo
 
 import (
+	"github.com/gofiber/csrf"
 	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/middleware"
+	"github.com/gofiber/template/html"
 )
 
-type AppConfig struct {
+type App struct {
 	Path   string
 	Config *Config
 }
 
-func Serve(config *AppConfig) error {
-	app := fiber.New()
+type Message struct {
+	Subject string
+	Body 	string
+}
 
-	app.Get("/", func(c *fiber.Ctx) {
-		c.Send("Hello, World 👋!")
+func Serve(app *App) error {
+	server := fiber.New(&fiber.Settings{
+		Views: html.New("./templates", ".html"),
 	})
 
+	server.Post("/", app.SendMessage)
+	server.Get("/", app.ShowForm)
 
-	return app.Listen(config.Config.Port)
+	server.Use(csrf.New())
+	server.Use(middleware.Recover())
+	server.Use(middleware.RequestID())
+
+	return server.Listen(app.Config.Port)
 }

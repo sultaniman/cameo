@@ -24,7 +24,7 @@ var (
 	configFile string
 	gpgPubKey  string
 	port       int
-	appConfig  *cameo.AppConfig
+	appConfig  *cameo.App
 )
 
 const defaultConfigPath = "/etc/cameo/config.yml"
@@ -53,7 +53,7 @@ func prepareConfig() {
 		config.GPG.PubKey = gpgPubKey
 	}
 
-	appConfig = &cameo.AppConfig{
+	appConfig = &cameo.App{
 		Path:   configFile,
 		Config: config,
 	}
