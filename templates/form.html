@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cameo | {{.Title}}</title>
+</head>
+<body>
+
+<form method="post">
+    {{.Error}}
+    <label for="subject">Subject</label>
+    <input type="text" name="subject" id="subject" value="{{.Message.Subject}}"/>
+    <label for="body">Your message</label>
+    <textarea name="body" id="body">{{.Message.Body}}</textarea>
+    <button type="submit">Send</button>
+</form>
+
+<style>
+    form {
+        padding: 10px;
+    }
+</style>
+</body>
+</html>
+<!-- Version: {{.Version}} -->
