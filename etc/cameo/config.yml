@@ -1,5 +1,6 @@
 version: 0.0.1
 port: 4000
+form_title: Message To Unicorn
 
 mailer:
   host: smtp.google.com

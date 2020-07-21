@@ -27,13 +27,15 @@ type Logs struct {
 }
 
 type GPG struct {
-	PubKey string `mapstructure:"pub_key"`
+	PubKey        string `mapstructure:"pub_key"`
+	PubKeyContent string
 }
 
 type Config struct {
-	Port    int
-	Version string
-	Domains []Domain
+	Domains        []Domain
+	FormTitle      string `mapstructure:"form_title"`
+	Port           int
+	Version        string
 	Mailer
 	Logs
 	GPG
