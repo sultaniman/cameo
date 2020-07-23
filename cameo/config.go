@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
+	"golang.org/x/crypto/openpgp"
+	"golang.org/x/crypto/openpgp/armor"
+	"golang.org/x/crypto/openpgp/packet"
 	"os"
 )
 
@@ -27,8 +30,8 @@ type Logs struct {
 }
 
 type GPG struct {
-	PubKey        string `mapstructure:"pub_key"`
-	PubKeyContent string
+	PubKey string `mapstructure:"pub_key"`
+	Entity *openpgp.Entity
 }
 
 type Config struct {
@@ -76,6 +79,8 @@ func LoadConfig(configPath string) *Config {
 
 	logrus.SetLevel(logLevel)
 
+	config.GPG.Entity = readGPGKey(config.GPG.PubKey)
+
 	return &config
 }
 
@@ -85,4 +90,27 @@ func configExists(configPath string) bool {
 	}
 
 	return true
+}
+
+func readGPGKey(keyPath string) *openpgp.Entity {
+	file, err := os.Open(keyPath)
+	if err != nil {
+		logrus.Error("Unable to read public key", err)
+		os.Exit(1)
+	}
+	defer file.Close()
+
+	block, err := armor.Decode(file)
+	if err != nil {
+		logrus.Error("Unable to decode public key", err)
+		os.Exit(1)
+	}
+
+	entity, err := openpgp.ReadEntity(packet.NewReader(block.Body))
+	if err != nil {
+		logrus.Error("Unable to read openpgp Entity", err)
+		os.Exit(1)
+	}
+
+	return entity
 }
