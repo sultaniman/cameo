@@ -19,3 +19,4 @@
 /vendor/
 /Godeps/
 /dev
+/etc/cameo/config.dev.yml
