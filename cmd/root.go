@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/davecgh/go-spew/spew"
 	"github.com/imanhodjaev/cameo/cameo"
 	"github.com/spf13/cobra"
 	"os"
@@ -44,7 +43,6 @@ func init() {
 }
 
 func prepareConfig() {
-	spew.Dump(configFile)
 	config := cameo.LoadConfig(configFile)
 	config.Port = port
 

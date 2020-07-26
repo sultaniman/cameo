@@ -1,12 +1,12 @@
 package cameo
 
 import (
+	"bytes"
 	"fmt"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"golang.org/x/crypto/openpgp"
-	"golang.org/x/crypto/openpgp/armor"
-	"golang.org/x/crypto/openpgp/packet"
+	"io/ioutil"
 	"os"
 )
 
@@ -17,10 +17,9 @@ type Mailer struct {
 	Port      *int
 	User      string
 	Pass      string
-	AppPass   string `mapstructure:"app_pass"`
 	Retries   int
-	SendTo    string `mapstructure:"send_to"`
-	FromEmail string `mapstructure:"from_email"`
+	SendTo    *string `mapstructure:"send_to"`
+	FromEmail string  `mapstructure:"from_email"`
 }
 
 type Domain []string
@@ -30,18 +29,18 @@ type Logs struct {
 }
 
 type GPG struct {
-	PubKey string `mapstructure:"pub_key"`
-	Entity *openpgp.Entity
+	PubKey   string `mapstructure:"pub_key"`
+	Entities []*openpgp.Entity
 }
 
 type Config struct {
-	Domains        []Domain
-	FormTitle      string `mapstructure:"form_title"`
-	Port           int
-	Version        string
-	Mailer
-	Logs
-	GPG
+	Domains   []Domain
+	FormTitle string `mapstructure:"form_title"`
+	Port      int
+	Version   string
+	Mailer    Mailer
+	Logs      Logs
+	GPG       GPG
 }
 
 func LoadConfig(configPath string) *Config {
@@ -72,6 +71,11 @@ func LoadConfig(configPath string) *Config {
 		panic(err)
 	}
 
+	if config.Mailer.SendTo == nil {
+		logrus.Error("Please configure mailer.send_to address")
+		os.Exit(1)
+	}
+
 	logLevel, err := logrus.ParseLevel(viper.GetString("logs.level"))
 	if err != nil {
 		logLevel = logrus.InfoLevel
@@ -79,7 +83,7 @@ func LoadConfig(configPath string) *Config {
 
 	logrus.SetLevel(logLevel)
 
-	config.GPG.Entity = readGPGKey(config.GPG.PubKey)
+	config.GPG.Entities = readGPGKey(config.GPG.PubKey)
 
 	return &config
 }
@@ -92,25 +96,23 @@ func configExists(configPath string) bool {
 	return true
 }
 
-func readGPGKey(keyPath string) *openpgp.Entity {
-	file, err := os.Open(keyPath)
+func readGPGKey(keyPath string) []*openpgp.Entity {
+	pubKey, err := ioutil.ReadFile(keyPath)
 	if err != nil {
 		logrus.Error("Unable to read public key", err)
 		os.Exit(1)
 	}
-	defer file.Close()
 
-	block, err := armor.Decode(file)
+	entityList, err := openpgp.ReadArmoredKeyRing(bytes.NewBufferString(string(pubKey)))
 	if err != nil {
-		logrus.Error("Unable to decode public key", err)
+		logrus.Error("Unable to read openpgp armored key ring", err)
 		os.Exit(1)
 	}
 
-	entity, err := openpgp.ReadEntity(packet.NewReader(block.Body))
-	if err != nil {
-		logrus.Error("Unable to read openpgp Entity", err)
-		os.Exit(1)
+	var entities []*openpgp.Entity
+	for _, entity := range entityList {
+		entities = append(entities, entity)
 	}
 
-	return entity
+	return entities
 }

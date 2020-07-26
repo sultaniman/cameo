@@ -4,6 +4,7 @@ go 1.14
 
 require (
 	github.com/davecgh/go-spew v1.1.1
+	github.com/domodwyer/mailyak v3.1.1+incompatible
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
 	github.com/gofiber/csrf v0.2.0
 	github.com/gofiber/fiber v1.13.1
@@ -18,6 +19,7 @@ require (
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.7.0
+	golang.org/x/crypto v0.0.0-20190820162420-60c769a6c586
 	golang.org/x/sys v0.0.0-20200625212154-ddb9806d33ae // indirect
 	golang.org/x/text v0.3.3 // indirect
 	gopkg.in/ini.v1 v1.57.0 // indirect

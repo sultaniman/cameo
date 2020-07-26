@@ -1,3 +1,3 @@
-# Cameo
+# 🎎 Cameo
 
 PGP encrypted contact form.

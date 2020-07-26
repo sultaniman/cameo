@@ -12,14 +12,10 @@ type App struct {
 	Config *Config
 }
 
-type Message struct {
-	Subject string
-	Body 	string
-}
-
 func Serve(app *App) error {
 	server := fiber.New(&fiber.Settings{
 		Views: html.New("./templates", ".html"),
+
 	})
 
 	server.Post("/", app.SendMessage)
