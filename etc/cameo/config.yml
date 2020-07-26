@@ -1,13 +1,12 @@
 version: 0.0.1
 port: 4000
-form_title: Message To Unicorn
+form_title: A Message To Unicorn
 
 mailer:
   host: smtp.google.com
   port: 587
   user: user
   pass: pass
-  app_pass: app_pass
   retries: 3
   send_to: secret@secret.mail
   from_email: contact@myform.com
