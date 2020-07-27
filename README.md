@@ -1,6 +1,15 @@
 # 🎎 Cameo
 
-PGP encrypted contact form.
+<p style="font-size: 18px">WORK IN PROGRESS 🚧</p>
+
+## TODO
+
+1. Tests,
+2. Clean and sound documentation,
+3. Add community guidelines,
+4. Upload docker image to DockerHub.
+
+🦄 Your very own GPG 🔐 encrypted contact form
 
 ## ⚙️ Configuration
 
