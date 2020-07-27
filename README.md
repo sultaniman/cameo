@@ -1,6 +1,10 @@
 # 🎎 Cameo
 
-<h1 align="center">WORK IN PROGRESS 🚧</h1>
+<p style="text-align: center">
+    <img width="150" height="150" alt="Cameo" src="https://raw.githubusercontent.com/imanhodjaev/cameo/master/assets/unicorn.png"/>
+</p>
+
+<h1 style="text-align: center">WORK IN PROGRESS 🚧</h1>
 
 ## TODO
 
@@ -88,3 +92,7 @@ RestartSec=10
 [Install]
 WantedBy=multi-user.target
 ```
+
+## Assets
+
+Favicon is taken from https://icons8.com/icon/104324/unicorn
