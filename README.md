@@ -1,6 +1,6 @@
 # 🎎 Cameo
 
-<p style="font-size: 18px">WORK IN PROGRESS 🚧</p>
+<h1 align="center">WORK IN PROGRESS 🚧</h1>
 
 ## TODO
 
