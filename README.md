@@ -6,7 +6,7 @@
 
 <h1 align="center" style="text-align: center">WORK IN PROGRESS 🚧</h1>
 
-## TODO
+## 💊 TODO
 
 1. Tests,
 2. Clean and sound documentation,
@@ -15,7 +15,7 @@
 
 🦄 Your very own GPG 🔐 encrypted contact form
 
-## Why?
+## 🧐 Why?
 
 If you are an investigative journalist or cyber security professional and often need to have secure contact form
 then this project aims to fill this gap with easy-to-use and deploy approach, also it might be ideal for people
@@ -66,7 +66,7 @@ gpg:
     3. Copy views folder and public key to required locations,
     4. Run server
 
-## CLI options
+## 📺 CLI options
 
 ```sh
 Generate your GPG key and deploy your contact form with Cameo
@@ -81,7 +81,7 @@ Flags:
       --pub-key string   GPG public key
 ```
 
-## systemd example
+## 🤔 systemd example
 Create `/etc/systemd/system/cameo.service` with the following contents
 
 ```unit file (systemd)
@@ -101,6 +101,6 @@ RestartSec=10
 WantedBy=multi-user.target
 ```
 
-## Assets
+## 💄 Assets
 
 Favicon is taken from https://icons8.com/icon/104324/unicorn
