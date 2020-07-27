@@ -16,7 +16,7 @@ func (a *App) SendMessage(c *fiber.Ctx) {
 		config.Mailer.SendAsync(&message, &config.GPG)
 		data = a.getData(&Message{}, "Message sent.", false)
 	} else {
-		data = a.getData(&message, "Please fill out subject and message", true)
+		data = a.getData(&message, "Please fill out subject and message of at least 2 words", true)
 	}
 
 	_ = c.Render("form", data)

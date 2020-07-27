@@ -2,10 +2,10 @@
 
 PGP encrypted contact form.
 
-## Configuration
+## ⚙️ Configuration
 
 1. Generate key using `$ gpg --generate-key` without password,
-2. Export public key and prepare to share it with container,
+2. Export public key and prepare to share it with a container,
 3. Configure SMTP server details.
 
 Default configuration:
@@ -14,6 +14,7 @@ Default configuration:
 version: 0.0.1
 port: 4000
 form_title: A Message To Unicorn
+views: /etc/cameo/views
 
 mailer:
   host: smtp.google.com
@@ -35,12 +36,31 @@ gpg:
   pub_key: /path/to/pub.key
 ```
 
-## How to build and run
+## 🔧 Build and run
 
 1. Build docker image and run `make image`,
-2. Compile `$ go build -o /cameo/cameo`.
+2. Compile `$ go build -o /cameo/cameo`
+    1. Create and export GPG public key, 
+    2. Update configuration,
+    3. Copy views folder and public key to required locations,
+    4. Run server
 
-## Using with systemd
+## CLI options
+
+```sh
+Generate your GPG key and deploy your contact form with Cameo
+
+Usage:
+   [flags]
+
+Flags:
+      --config string    Config file (default "/etc/cameo/config.yml")
+  -h, --help             help for this command
+      --port int         Server port (default 4000)
+      --pub-key string   GPG public key
+```
+
+## systemd example
 Create `/etc/systemd/system/cameo.service` with the following contents
 
 ```unit file (systemd)

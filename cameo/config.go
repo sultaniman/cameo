@@ -22,8 +22,6 @@ type Mailer struct {
 	FromEmail string  `mapstructure:"from_email"`
 }
 
-type Domain []string
-
 type Logs struct {
 	Level string
 }
@@ -34,7 +32,8 @@ type GPG struct {
 }
 
 type Config struct {
-	Domains   []Domain
+	Domains   []string
+	Views     string
 	FormTitle string `mapstructure:"form_title"`
 	Port      int
 	Version   string
@@ -100,12 +99,14 @@ func readGPGKey(keyPath string) []*openpgp.Entity {
 	pubKey, err := ioutil.ReadFile(keyPath)
 	if err != nil {
 		logrus.Error("Unable to read public key", err)
+		logrus.Error(err)
 		os.Exit(1)
 	}
 
 	entityList, err := openpgp.ReadArmoredKeyRing(bytes.NewBufferString(string(pubKey)))
 	if err != nil {
-		logrus.Error("Unable to read openpgp armored key ring", err)
+		logrus.Error("Unable to read openpgp armored key ring")
+		logrus.Error(err)
 		os.Exit(1)
 	}
 

@@ -1,6 +1,7 @@
 version: 0.0.1
 port: 4000
 form_title: A Message To Unicorn
+views: /etc/cameo/views
 
 mailer:
   host: smtp.google.com

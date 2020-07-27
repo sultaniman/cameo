@@ -6,7 +6,7 @@ import (
 
 type Message struct {
 	Subject string
-	Body 	string
+	Body    string
 	RawBody []byte
 }
 

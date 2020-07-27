@@ -10,7 +10,7 @@ RUN make test compile
 FROM scratch
 COPY --from=builder /cameo/cameo /
 COPY etc/cameo /etc/cameo
-COPY templates /etc/cameo/templates
+COPY views /etc/cameo/views
 
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 

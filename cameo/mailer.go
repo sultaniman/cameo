@@ -10,7 +10,6 @@ import (
 	"time"
 )
 
-
 // Send encrypted email with GPG and retry with exponential backoff
 // until retry limit reached will return and error if it failed.
 func (m *Mailer) SendMessage(message *Message, gpg *GPG, retries int) error {
@@ -23,11 +22,12 @@ func (m *Mailer) SendMessage(message *Message, gpg *GPG, retries int) error {
 	mail.From(m.FromEmail)
 	mail.Subject(message.Subject)
 	reader := bytes.NewReader(message.RawBody)
+	mail.Plain().Set(encodeMessage(string(message.RawBody)))
 	mail.Attach("message.gpg", reader)
 	if err := mail.Send(); err != nil {
 		if retries <= m.Retries {
 			wait := retries << 2
-			logrus.Info(fmt.Sprintf("Waiting %d seconds before next retry", wait))
+			logrus.Info(fmt.Sprintf("Waiting %d seconds before next retry...", wait))
 			time.Sleep(time.Duration(wait))
 			return m.SendMessage(message, gpg, retries+1)
 		}
@@ -42,12 +42,14 @@ func (m *Mailer) SendAsync(message *Message, gpg *GPG) {
 	go func() {
 		body, err := message.Encrypt(gpg)
 		if err != nil {
-			logrus.Error("Unable to encrypt message", err)
+			logrus.Error("Unable to encrypt message")
+			logrus.Error(err)
 		}
 
 		message.RawBody = body
 		if err := m.SendMessage(message, gpg, 0); err != nil {
-			logrus.Error("Unable to send message", err)
+			logrus.Error("Unable to send message")
+			logrus.Error(err)
 		}
 	}()
 }
