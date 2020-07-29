@@ -6,6 +6,7 @@ import (
 	"github.com/gofiber/fiber/middleware"
 	"github.com/gofiber/template/html"
 	"github.com/sirupsen/logrus"
+	"html/template"
 	"net/http"
 	"net/url"
 )
@@ -17,7 +18,7 @@ type App struct {
 
 func Serve(app *App) error {
 	server := fiber.New(&fiber.Settings{
-		Views:                 html.New(app.Config.Views, ".html"),
+		Views:                 createTemplateEngine(),
 		DisableStartupMessage: true,
 	})
 
@@ -49,5 +50,11 @@ func CheckDomains(domains []string) fiber.Handler {
 		}
 
 		c.SendStatus(http.StatusBadRequest)
+	}
+}
+
+func createTemplateEngine() *html.Engine {
+	return &html.Engine{
+		Templates: template.Must(template.New("form").Parse(FormTemplate)),
 	}
 }
