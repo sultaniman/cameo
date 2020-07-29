@@ -33,7 +33,6 @@ type GPG struct {
 
 type Config struct {
 	Domains   []string
-	Views     string
 	FormTitle string `mapstructure:"form_title"`
 	Port      int
 	Version   string

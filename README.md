@@ -3,7 +3,7 @@
 </p>
 
 <h1 align="center" style="text-align: center">🎎 Cameo</h1>
-<h1 align="center" style="text-align: center">WORK IN PROGRESS 🚧</h1>
+<h1 align="center" style="text-align: center">🚧 WORK IN PROGRESS 🚧</h1>
 
 ## 💊 TODO
 
@@ -34,7 +34,6 @@ Default configuration:
 version: 0.0.1
 port: 4000
 form_title: A Message To Unicorn
-views: /etc/cameo/views
 
 mailer:
   host: smtp.google.com
@@ -62,8 +61,7 @@ gpg:
 2. Compile `$ go build -o /cameo/cameo`
     1. Create and export GPG public key, 
     2. Update configuration,
-    3. Copy views folder and public key to required locations,
-    4. Run server
+    3. Run server
 
 ## 📺 CLI options
 

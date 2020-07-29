@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/imanhodjaev/cameo/cmd"
+	"github.com/imanhodjaev/cameo/cameo/cmd"
 )
 
 func main() {
