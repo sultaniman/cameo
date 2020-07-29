@@ -20,7 +20,7 @@ If you are an investigative journalist or cyber security professional and often 
 then this project aims to fill this gap with easy-to-use and deploy approach, also it might be ideal for people
 who want to avoid sharing personal emails and only share a website with contact form.
 Contact form uses GPG and encrypts messages before sending them, just generate your key and put
-it's location in configuration file.
+its location in configuration file.
 
 ## ⚙️ Configuration
 

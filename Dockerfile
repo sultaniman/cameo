@@ -18,6 +18,6 @@ COPY etc/cameo /etc/cameo
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 
 VOLUME /etc/cameo
-EXPOSE 8080
+EXPOSE 4000
 
 ENTRYPOINT ["/cameo"]
