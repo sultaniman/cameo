@@ -5,6 +5,7 @@ import (
 	"encoding/base64"
 	"fmt"
 	"github.com/domodwyer/mailyak"
+	"github.com/imanhodjaev/cameo/cameo/config"
 	"github.com/sirupsen/logrus"
 	"net/smtp"
 	"time"
@@ -12,7 +13,7 @@ import (
 
 // Send encrypted email with GPG and retry with exponential backoff
 // until retry limit reached will return and error if it failed.
-func (m *Mailer) SendMessage(message *Message, gpg *GPG, retries int) error {
+func (m *config.Mailer) SendMessage(message *Message, gpg *config.GPG, retries int) error {
 	mail := mailyak.New(
 		fmt.Sprintf("%s:%d", m.Host, *m.Port),
 		smtp.PlainAuth("", m.User, m.Pass, m.Host),

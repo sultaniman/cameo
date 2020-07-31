@@ -1,4 +1,4 @@
-package cameo
+package config
 
 import (
 	"bytes"
@@ -41,6 +41,8 @@ type Config struct {
 	GPG       GPG
 }
 
+const PORT = 4000
+
 func LoadConfig(configPath string) *Config {
 	if &configPath == nil {
 		fmt.Println("Using default configuration")
@@ -51,6 +53,7 @@ func LoadConfig(configPath string) *Config {
 	}
 
 	viper.SetConfigType("yaml")
+	viper.SetDefault("port", PORT)
 	viper.SetDefault("mailer.retries", 3)
 	viper.SetDefault("logs.level", "INFO")
 	viper.SetEnvPrefix("cameo")

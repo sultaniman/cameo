@@ -1,4 +1,5 @@
 FROM golang:1.14-alpine AS builder
+
 RUN apk --update add ca-certificates
 
 WORKDIR /cameo
@@ -12,6 +13,7 @@ RUN go test ./...
 RUN GOOS=linux go build -o /cameo/cameo
 
 FROM scratch
+
 COPY --from=builder /cameo/cameo /
 COPY etc/cameo /etc/cameo
 

@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"github.com/imanhodjaev/cameo/cameo"
+	"github.com/imanhodjaev/cameo/cameo/config"
 	"github.com/spf13/cobra"
 	"os"
 	"strings"
@@ -43,16 +44,16 @@ func init() {
 }
 
 func prepareConfig() {
-	config := cameo.LoadConfig(configFile)
-	config.Port = port
+	conf := config.LoadConfig(configFile)
+	conf.Port = port
 
 	// If GPG key set then replace
 	if strings.TrimSpace(gpgPubKey) != "" {
-		config.GPG.PubKey = gpgPubKey
+		conf.GPG.PubKey = gpgPubKey
 	}
 
 	appConfig = &cameo.App{
 		Path:   configFile,
-		Config: config,
+		Config: conf,
 	}
 }
