@@ -99,6 +99,10 @@ RestartSec=10
 WantedBy=multi-user.target
 ```
 
+## Screenshot
+<img alt="Cameo" src="https://raw.githubusercontent.com/imanhodjaev/cameo/master/assets/screenshot.png"/>
+
+
 ## 💄 Assets
 
 Favicon is taken from https://icons8.com/icon/104324/unicorn
