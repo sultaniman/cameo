@@ -8,5 +8,5 @@ import (
 
 func TestLoadConfig(t *testing.T) {
 	//LoadConfig()
-	fmt.Println(filepath.Abs("."))
+	fmt.Println(filepath.Abs("./../../etc"))
 }
