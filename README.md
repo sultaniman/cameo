@@ -5,6 +5,8 @@
 <h1 align="center" style="text-align: center">🎎 Cameo</h1>
 <h1 align="center" style="text-align: center">🚧 WORK IN PROGRESS 🚧</h1>
 
+[![Build Status](https://travis-ci.com/imanhodjaev/cameo.svg?branch=master)](https://travis-ci.com/imanhodjaev/cameo)
+
 ## 💊 TODO
 
 1. Tests,
