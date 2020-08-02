@@ -15,7 +15,7 @@ const ConfigPath = "/etc/cameo/config.yml"
 
 const PORT = 4000
 
-func LoadConfig(configPath string) *app.Config {
+func LoadConfig(configPath string, loadGPG bool) *app.Config {
 	if &configPath == nil {
 		fmt.Println("Using default configuration")
 		viper.SetConfigFile(ConfigPath)
@@ -56,7 +56,9 @@ func LoadConfig(configPath string) *app.Config {
 
 	logrus.SetLevel(logLevel)
 
-	config.GPG.Entities = readGPGKey(config.GPG.PubKey)
+	if loadGPG {
+		config.GPG.Entities = readGPGKey(config.GPG.PubKey)
+	}
 
 	return &config
 }

@@ -44,7 +44,7 @@ func init() {
 }
 
 func prepareConfig() {
-	conf := config.LoadConfig(configFile)
+	conf := config.LoadConfig(configFile, true)
 	conf.Port = port
 
 	// If GPG key set then replace
