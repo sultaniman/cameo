@@ -4,10 +4,8 @@ import (
 	"github.com/gofiber/csrf"
 	"github.com/gofiber/fiber"
 	"github.com/gofiber/fiber/middleware"
-	"github.com/gofiber/template/html"
 	"github.com/imanhodjaev/cameo/cameo/app"
 	"github.com/sirupsen/logrus"
-	"html/template"
 	"net/http"
 	"net/url"
 )
@@ -19,7 +17,7 @@ type App struct {
 
 func Serve(app *App) error {
 	server := fiber.New(&fiber.Settings{
-		Views:                 createTemplateEngine(),
+		Views:                 CreateTemplateEngine(),
 		DisableStartupMessage: true,
 	})
 
@@ -51,11 +49,5 @@ func CheckDomains(domains []string) fiber.Handler {
 		}
 
 		c.SendStatus(http.StatusBadRequest)
-	}
-}
-
-func createTemplateEngine() *html.Engine {
-	return &html.Engine{
-		Templates: template.Must(template.New("form").Parse(FormTemplate)),
 	}
 }
