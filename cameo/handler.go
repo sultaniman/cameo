@@ -2,19 +2,19 @@ package cameo
 
 import (
 	"github.com/gofiber/fiber"
+	"github.com/imanhodjaev/cameo/cameo/app"
 )
 
 func (a *App) SendMessage(c *fiber.Ctx) {
 	var data *fiber.Map
-	config := a.Config
-	message := Message{
+	message := app.Message{
 		Subject: c.FormValue("subject"),
 		Body:    c.FormValue("body"),
 	}
 
 	if message.IsValid() {
-		config.Mailer.SendAsync(&message, &config.GPG)
-		data = a.getData(&Message{}, "Message sent.", false)
+		app.SendAsync(&message, a.Config)
+		data = a.getData(&app.Message{}, "Message sent.", false)
 	} else {
 		data = a.getData(&message, "Please fill out subject and message of at least 2 words", true)
 	}
@@ -23,10 +23,10 @@ func (a *App) SendMessage(c *fiber.Ctx) {
 }
 
 func (a *App) ShowForm(c *fiber.Ctx) {
-	_ = c.Render("form", a.getData(&Message{}, "", false))
+	_ = c.Render("form", a.getData(&app.Message{}, "", false))
 }
 
-func (a *App) getData(message *Message, note string, isError bool) *fiber.Map {
+func (a *App) getData(message *app.Message, note string, isError bool) *fiber.Map {
 	return &fiber.Map{
 		"Message": message,
 		"Title":   a.Config.FormTitle,

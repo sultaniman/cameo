@@ -3,6 +3,7 @@ package config
 import (
 	"bytes"
 	"fmt"
+	"github.com/imanhodjaev/cameo/cameo/app"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"golang.org/x/crypto/openpgp"
@@ -12,38 +13,9 @@ import (
 
 const ConfigPath = "/etc/cameo/config.yml"
 
-type Mailer struct {
-	Host      string
-	Port      *int
-	User      string
-	Pass      string
-	Retries   int
-	SendTo    *string `mapstructure:"send_to"`
-	FromEmail string  `mapstructure:"from_email"`
-}
-
-type Logs struct {
-	Level string
-}
-
-type GPG struct {
-	PubKey   string `mapstructure:"pub_key"`
-	Entities []*openpgp.Entity
-}
-
-type Config struct {
-	Domains   []string
-	FormTitle string `mapstructure:"form_title"`
-	Port      int
-	Version   string
-	Mailer    Mailer
-	Logs      Logs
-	GPG       GPG
-}
-
 const PORT = 4000
 
-func LoadConfig(configPath string) *Config {
+func LoadConfig(configPath string) *app.Config {
 	if &configPath == nil {
 		fmt.Println("Using default configuration")
 		viper.SetConfigFile(ConfigPath)
@@ -67,7 +39,7 @@ func LoadConfig(configPath string) *Config {
 		panic(fmt.Sprintf("Unable to read config file: %s", configPath))
 	}
 
-	var config Config
+	var config app.Config
 	if err := viper.Unmarshal(&config); err != nil {
 		panic(err)
 	}

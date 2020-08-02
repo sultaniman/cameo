@@ -5,7 +5,7 @@ import (
 	"github.com/gofiber/fiber"
 	"github.com/gofiber/fiber/middleware"
 	"github.com/gofiber/template/html"
-	"github.com/imanhodjaev/cameo/cameo/config"
+	"github.com/imanhodjaev/cameo/cameo/app"
 	"github.com/sirupsen/logrus"
 	"html/template"
 	"net/http"
@@ -14,7 +14,7 @@ import (
 
 type App struct {
 	Path   string
-	Config *config.Config
+	Config *app.Config
 }
 
 func Serve(app *App) error {

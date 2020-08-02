@@ -1,36 +1,40 @@
-package cameo
+package app
 
 import (
 	"bytes"
 	"encoding/base64"
 	"fmt"
 	"github.com/domodwyer/mailyak"
-	"github.com/imanhodjaev/cameo/cameo/config"
 	"github.com/sirupsen/logrus"
 	"net/smtp"
 	"time"
 )
 
+type Sender struct {
+	Retries int
+}
+
 // Send encrypted email with GPG and retry with exponential backoff
 // until retry limit reached will return and error if it failed.
-func (m *config.Mailer) SendMessage(message *Message, gpg *config.GPG, retries int) error {
+func (m Sender) SendMessage(message *Message, mailer *Mailer) error {
 	mail := mailyak.New(
-		fmt.Sprintf("%s:%d", m.Host, *m.Port),
-		smtp.PlainAuth("", m.User, m.Pass, m.Host),
+		fmt.Sprintf("%s:%d", mailer.Host, *mailer.Port),
+		smtp.PlainAuth("", mailer.User, mailer.Pass, mailer.Host),
 	)
 
-	mail.To(*m.SendTo)
-	mail.From(m.FromEmail)
+	mail.To(*mailer.SendTo)
+	mail.From(mailer.FromEmail)
 	mail.Subject(message.Subject)
 	reader := bytes.NewReader(message.RawBody)
 	mail.Plain().Set(encodeMessage(string(message.RawBody)))
 	mail.Attach("message.gpg", reader)
 	if err := mail.Send(); err != nil {
-		if retries <= m.Retries {
-			wait := retries << 2
+		if m.Retries <= mailer.Retries {
+			wait := m.Retries << 2
 			logrus.Info(fmt.Sprintf("Waiting %d seconds before next retry...", wait))
 			time.Sleep(time.Duration(wait))
-			return m.SendMessage(message, gpg, retries+1)
+			m.Retries += 1
+			return m.SendMessage(message, mailer)
 		}
 
 		return err
@@ -39,23 +43,24 @@ func (m *config.Mailer) SendMessage(message *Message, gpg *config.GPG, retries i
 	return nil
 }
 
-func (m *Mailer) SendAsync(message *Message, gpg *GPG) {
+func SendAsync(message *Message, config *Config) {
 	go func() {
-		body, err := message.Encrypt(gpg)
+		body, err := message.Encrypt(&config.GPG)
 		if err != nil {
 			logrus.Error("Unable to encrypt message")
 			logrus.Error(err)
 		}
 
 		message.RawBody = body
-		if err := m.SendMessage(message, gpg, 0); err != nil {
+		sender := Sender{Retries: 0}
+		if err := sender.SendMessage(message, &config.Mailer); err != nil {
 			logrus.Error("Unable to send message")
 			logrus.Error(err)
 		}
 	}()
 }
 
-const GPG_MESSAGE = `
+const GpgMessage = `
 -----BEGIN PGP MESSAGE-----
 
 %s
@@ -64,5 +69,5 @@ const GPG_MESSAGE = `
 
 func encodeMessage(body string) string {
 	encoded := base64.StdEncoding.EncodeToString([]byte(body))
-	return fmt.Sprintf(GPG_MESSAGE, encoded)
+	return fmt.Sprintf(GpgMessage, encoded)
 }

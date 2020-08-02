@@ -1,4 +1,4 @@
-package cameo
+package app
 
 import (
 	"strings"
