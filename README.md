@@ -3,7 +3,8 @@
 </p>
 
 <h1 align="center" style="text-align: center">🎎 Cameo</h1>
-<h1 align="center" style="text-align: center">🚧 WORK IN PROGRESS 🚧</h1>
+<h1 align="center" style="text-align: center">🚧 RETIRED 🚧</h1>
+Please use https://github.com/sultaniman/kpow
 
 [![Build Status](https://travis-ci.com/imanhodjaev/cameo.svg?branch=master)](https://travis-ci.com/imanhodjaev/cameo)
 
